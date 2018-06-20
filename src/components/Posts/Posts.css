@@ -1,0 +1,21 @@
+@media (min-width: 700px) {
+    .Message {
+        padding: 10vh 0 0 0;
+        margin: 0;
+    }
+
+    .Posts {
+        width: 80%;
+        background-color: aliceblue;
+        padding: 0 10vh;
+    }
+    
+    .posts-err-msg {
+        font-style: italic;
+    }
+
+    .posts-submit-button {
+        margin: 0;
+        padding: 0;
+    }
+}
