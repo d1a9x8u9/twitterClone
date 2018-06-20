@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { store_user, delete_user } from '../../../store/actions/actions'
 import { auth } from '../../../firebase'
 import { Link, withRouter } from 'react-router-dom'
+import Logo from '../../../assets/images/logo.png'
 import {
     Collapse,
     Navbar,
@@ -132,12 +133,9 @@ class Toolbar extends Component {
                                 <Button type="button" className="btn-block" onClick={this.onSubmitLoginHandler}>Submit</Button>
                             </Form>
                             <DropdownItem divider />
-                            <DropdownItem onClick={this.onSignupClickHandler}>
+                            <DropdownItem className="text-center text-primary"onClick={this.onSignupClickHandler}>
                                 Signup
                             </DropdownItem>
-                            {/* <div className="Link" onClick={this.toggle}>
-                                <Link to="/signup">Sign up</Link>
-                            </div> */}
                         </DropdownMenu>
                     </Fragment>
                 )
@@ -145,7 +143,7 @@ class Toolbar extends Component {
         return (
             <Fragment>
                 <Navbar color="dark" dark expand="md">
-                    <NavbarBrand href="/">Twitter</NavbarBrand>
+                    <NavbarBrand href="/"><img className="Logo" src={Logo} alt='logo.png'/></NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>

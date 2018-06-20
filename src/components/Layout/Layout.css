@@ -1,8 +1,8 @@
 @media (min-width: 700px) {
     .container {
-        height: 100vh !important;
+        height: 100% !important;
     }
     .row {
-        height: 100vh !important;
+        height: 100% !important;
     }
 }
