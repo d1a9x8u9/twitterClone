@@ -1,7 +1,9 @@
-.DropDownMenu {
-    width: 300px !important;
-}
-
 .Link {
     text-align: center;
+}
+
+@media (min-width: 700px) {
+    .DropDownMenu {
+        width: 300px !important;
+    }
 }

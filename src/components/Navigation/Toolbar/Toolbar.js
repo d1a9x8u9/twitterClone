@@ -3,7 +3,7 @@ import './Toolbar.css'
 import { connect } from 'react-redux'
 import { store_user, delete_user } from '../../../store/actions/actions'
 import { auth } from '../../../firebase'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import {
     Collapse,
     Navbar,
@@ -29,6 +29,7 @@ class Toolbar extends Component {
         },
         errorMessage: null,
         LoadedData: false,
+        isOpen: false
     }
 
     componentWillMount = () => {
@@ -36,9 +37,14 @@ class Toolbar extends Component {
             if(user) 
                 this.props.onStoreUser(user)
             this.setState({
-                LoadedData: true
+                LoadedData: true,
+                isOpen: false
             })
         })
+    }
+
+    onSignupClickHandler = () => {
+        this.props.history.push('/signup')
     }
 
     onChangeHandler = (e) => {
@@ -62,7 +68,16 @@ class Toolbar extends Component {
 
     onLogoutClickHandler = () => {
         auth.signOut()
-            .then( () => this.props.onDeleteUser())
+            .then( () => {
+                this.props.onDeleteUser()
+                this.setState({
+                    loginInfo: {
+                        useremail: '',
+                        password: '',
+                    },
+                    errorMessage: null,
+                })
+            })
     }
     
     toggle = () => {
@@ -114,12 +129,15 @@ class Toolbar extends Component {
                                     <Label for="password">Password:</Label>
                                     <Input type="password" name="password" onChange={this.onChangeHandler}/>
                                 </FormGroup>
-                                <Button type="button" onClick={this.onSubmitLoginHandler}>Submit</Button>
+                                <Button type="button" className="btn-block" onClick={this.onSubmitLoginHandler}>Submit</Button>
                             </Form>
                             <DropdownItem divider />
-                            <div className="Link">
+                            <DropdownItem onClick={this.onSignupClickHandler}>
+                                Signup
+                            </DropdownItem>
+                            {/* <div className="Link" onClick={this.toggle}>
                                 <Link to="/signup">Sign up</Link>
-                            </div>
+                            </div> */}
                         </DropdownMenu>
                     </Fragment>
                 )
@@ -131,7 +149,7 @@ class Toolbar extends Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            <Nav className="ml-auto" navbar>
+                            <Nav className="ml" navbar>
                             <UncontrolledDropdown nav inNavbar>
                                 {userMenu}
                             </UncontrolledDropdown>
@@ -157,4 +175,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Toolbar))

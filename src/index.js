@@ -16,20 +16,9 @@ const rootReducer = combineReducers({
     post: postReducer
 })
 
-const logger = store => {
-    return next => {
-        return action => {
-            console.log('[middleware]',action)
-            const result = next(action)
-            console.log('[middleware]', store.getState())
-            return result
-        }
-    }
-}
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const reduxStore = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk)));
+const reduxStore = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <BrowserRouter>

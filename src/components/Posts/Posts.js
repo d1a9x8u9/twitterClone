@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { auth } from '../../firebase'
 import './Posts.css'
 import { submit_post, loadPostsFromDb } from '../../store/actions/actions'
-import { Button, Form, FormGroup, Label, Input, TextArea } from 'reactstrap'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
 class Posts extends Component {
     state = {
@@ -14,8 +14,7 @@ class Posts extends Component {
 
     componentWillMount = () => {
         auth.onAuthStateChanged( user => {
-            if(user)
-                this.setState({user: user})
+            this.setState({user: user})
             this.props.onLoadDataFromDb()
         })
     }
@@ -42,7 +41,7 @@ class Posts extends Component {
         let createPostView = null
         if(this.state.user) 
             createPostView = (
-                <Form>
+                <Form className="px-3 pb-3 w-100">
                     <FormGroup className="Message">
                         <Label for="message">Tell us whats on your mind</Label>
                         <Input type="textarea" name="message" onChange={this.onChangeHandler} />
@@ -55,10 +54,13 @@ class Posts extends Component {
         return(
             <div className="Posts">
                 {createPostView}
-                {this.props.posts.map( post => {
-                    return <div key={post.postId}> {post.time}&nbsp;{post.author}<br/>{post.message}</div>
-                })}
+                <div className="w-100 px-3">
+                    {this.props.posts.map( post => {
+                        return <div key={post.postId}> {post.time}&nbsp;{post.author}<br/>{post.message}</div>
+                    })}
+                </div>
             </div>
+           
         )
     }
 }
