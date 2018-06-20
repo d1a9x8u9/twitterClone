@@ -4,6 +4,7 @@ import { auth } from '../../firebase'
 import './Posts.css'
 import { submit_post, loadPostsFromDb } from '../../store/actions/actions'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import Post from './Post/Post'
 
 class Posts extends Component {
     state = {
@@ -50,14 +51,16 @@ class Posts extends Component {
                     {this.state.errorMessage ? <Label className="text-danger posts-err-msg">{this.state.errorMessage}</Label> : null}
                 </Form>
             )
+        
+        let postsView = this.props.posts.map( post => {
+            return <Post post={post}/>
+        })
             
         return(
             <div className="Posts">
                 {createPostView}
-                <div className="w-100 px-3">
-                    {this.props.posts.map( post => {
-                        return <div key={post.postId}> {post.time}&nbsp;{post.author}<br/>{post.message}</div>
-                    })}
+                <div className="w-100 px-1">
+                    {postsView}
                 </div>
             </div>
            

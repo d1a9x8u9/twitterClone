@@ -4,6 +4,7 @@
 
 .Posts {
     width: 100%;
+    background-color: aliceblue;
 }
 
 .posts-err-msg {
@@ -18,7 +19,7 @@
     }
     
     .Posts {
-        width: 100%;
+        max-width: 70%;
         background-color: aliceblue;
         padding: 2vh 10vh;
         margin: 0;

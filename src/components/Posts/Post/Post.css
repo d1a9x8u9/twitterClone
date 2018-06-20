@@ -1,0 +1,17 @@
+.CardSubtitle {
+    font-size: 2.25vh;
+}
+
+.CardText {
+    font-size: 4.5vh;
+}
+
+.CardTitle {
+    font-size: 2.25vh;
+}
+
+.CardBody {
+    margin: 0;
+    padding: 0;
+}
+
