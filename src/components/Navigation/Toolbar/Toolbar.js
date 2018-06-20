@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import './Toolbar.css'
 import { connect } from 'react-redux'
 import { store_user, delete_user } from '../../../store/actions/actions'
-import { auth } from '../../../firebase'
+import firebase, { auth } from '../../../firebase'
 import { Link, withRouter } from 'react-router-dom'
 import Logo from '../../../assets/images/logo.png'
 import {
@@ -58,6 +58,7 @@ class Toolbar extends Component {
     }
 
     onSubmitLoginHandler = (e) => {
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         auth.signInWithEmailAndPassword(this.state.loginInfo.useremail, this.state.loginInfo.password)
         .catch( err => {
             this.setState({

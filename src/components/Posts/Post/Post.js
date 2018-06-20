@@ -1,18 +1,22 @@
 import React from 'react'
 
-import { Card, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap'
+import { Card, CardText, CardBody, CardTitle, CardSubtitle, CardImg, Button } from 'reactstrap'
 import './Post.css'
 
 const post = (props) => (
-        <Card className="my-1 Card">
-            {/* <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */}
-            <CardBody className="py-0 px-auto">
-            <CardText className="mb-1 CardText">{props.post.message}</CardText>
+    <Card className="my-2 Card">
+        <CardText className="px-2 CardText">{props.post.message}</CardText>
+        <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
+        <div className="px-2 text-right">
+            <i className="far fa-thumbs-up"></i>
+            <i className="far fa-heart pl-2"></i>
+        </div>
+        <CardBody className="pt-2 pb-1 px-1 text-right">
             <CardSubtitle className="CardSubtitle">{props.post.date}&nbsp;{props.post.time}</CardSubtitle>
-            <CardTitle className="CardTitle">{props.post.author}</CardTitle>
+            <CardTitle className="mb-1 CardTitle">{props.post.author}</CardTitle>
             {/* <Button>Button</Button> */}
-            </CardBody>
-        </Card>
+        </CardBody>
+    </Card>
 )
 
 export default post

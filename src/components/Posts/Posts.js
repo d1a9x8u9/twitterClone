@@ -52,8 +52,8 @@ class Posts extends Component {
                 </Form>
             )
         
-        let postsView = this.props.posts.map( post => {
-            return <Post post={post}/>
+        let postsView = this.props.posts.map( (post, index) => {
+            return <Post key={index} post={post}/>
         })
             
         return(
