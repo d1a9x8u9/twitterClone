@@ -6,7 +6,7 @@ import './Post.css'
 const post = (props) => (
     <Card className="my-2 Card">
         <CardText className="px-2 CardText">{props.post.message}</CardText>
-        {props.post.imgDownloadURL ? <CardImg top width="95%" src={props.post.imgDownloadURL} alt='img.jpg' /> : null}
+        {props.post.imgDownloadURL ? <CardImg top width="100%" src={props.post.imgDownloadURL} alt='img.jpg' /> : null}
         <div className="px-2 text-right">
             <i className="far fa-thumbs-up"></i>
             <i className="far fa-heart pl-2"></i>
