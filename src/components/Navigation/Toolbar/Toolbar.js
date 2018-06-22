@@ -17,9 +17,11 @@ import {
     DropdownItem,
     Form,
     FormGroup,
-    Label, 
+    Label,
     Input,
-    Button
+    Button,
+    NavItem,
+    NavLink
 } from 'reactstrap'
 
 class Toolbar extends Component {
@@ -35,7 +37,7 @@ class Toolbar extends Component {
 
     componentWillMount = () => {
         auth.onAuthStateChanged(user => {
-            if(user) 
+            if (user)
                 this.props.onStoreUser(user)
             this.setState({
                 LoadedData: true,
@@ -60,17 +62,17 @@ class Toolbar extends Component {
     onSubmitLoginHandler = (e) => {
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         auth.signInWithEmailAndPassword(this.state.loginInfo.useremail, this.state.loginInfo.password)
-        .catch( err => {
-            this.setState({
-                errorMessage: err.message
+            .catch(err => {
+                this.setState({
+                    errorMessage: err.message
+                })
             })
-        })
         e.preventDefault()
     }
 
     onLogoutClickHandler = () => {
         auth.signOut()
-            .then( () => {
+            .then(() => {
                 this.props.onDeleteUser()
                 this.setState({
                     loginInfo: {
@@ -81,7 +83,7 @@ class Toolbar extends Component {
                 })
             })
     }
-    
+
     toggle = () => {
         this.setState({
             isOpen: !this.state.isOpen
@@ -89,12 +91,12 @@ class Toolbar extends Component {
     }
 
     render() {
-        let userMenu = null 
+        let userMenu = null
 
-        let displayErrorMessage = this.state.errorMessage ? <Label className="text-danger">{this.state.errorMessage}</Label> : null 
+        let displayErrorMessage = this.state.errorMessage ? <Label className="text-danger">{this.state.errorMessage}</Label> : null
 
-        if(this.state.LoadedData) {
-            if(this.props.user) 
+        if (this.state.LoadedData) {
+            if (this.props.user)
                 userMenu = (
                     <Fragment>
                         <DropdownToggle nav caret>
@@ -107,14 +109,14 @@ class Toolbar extends Component {
                             <DropdownItem>
                                 Account Settings
                             </DropdownItem>
-                            <DropdownItem divider/>
+                            <DropdownItem divider />
                             <DropdownItem onClick={this.onLogoutClickHandler}>
                                 Logout
                             </DropdownItem>
                         </DropdownMenu>
                     </Fragment>
                 )
-            else 
+            else
                 userMenu = (
                     <Fragment>
                         <DropdownToggle nav caret>
@@ -125,16 +127,16 @@ class Toolbar extends Component {
                                 <FormGroup>
                                     {displayErrorMessage}
                                     <Label for="useremail">Email:</Label>
-                                    <Input type="email" name="useremail" onChange={this.onChangeHandler}/>
+                                    <Input type="email" name="useremail" onChange={this.onChangeHandler} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="password">Password:</Label>
-                                    <Input type="password" name="password" onChange={this.onChangeHandler}/>
+                                    <Input type="password" name="password" onChange={this.onChangeHandler} />
                                 </FormGroup>
                                 <Button type="button" className="btn-block" onClick={this.onSubmitLoginHandler}>Submit</Button>
                             </Form>
                             <DropdownItem divider />
-                            <DropdownItem className="text-center text-primary"onClick={this.onSignupClickHandler}>
+                            <DropdownItem className="text-center text-primary" onClick={this.onSignupClickHandler}>
                                 Signup
                             </DropdownItem>
                         </DropdownMenu>
@@ -144,14 +146,14 @@ class Toolbar extends Component {
         return (
             <Fragment>
                 <Navbar color="dark" dark expand="md">
-                    <NavbarBrand href="/"><img className="Logo" src={Logo} alt='logo.png'/></NavbarBrand>
+                    <NavbarBrand href="/"><img className="Logo" src={Logo} alt='logo.png' /></NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <Nav className="ml" navbar>
-                            <UncontrolledDropdown nav inNavbar>
-                                {userMenu}
-                            </UncontrolledDropdown>
+                                <UncontrolledDropdown nav inNavbar>
+                                    {userMenu}
+                                </UncontrolledDropdown>
                             </Nav>
                         </Nav>
                     </Collapse>

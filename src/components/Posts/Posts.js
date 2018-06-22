@@ -10,6 +10,7 @@ class Posts extends Component {
     state = {
         user: null,
         message: '',
+        image: null,
         errorMessage: null
     }
 
@@ -25,17 +26,27 @@ class Posts extends Component {
             message: e.target.value
         })
     }
+
+    onImgChangeHandler = (e) => {
+        this.setState({
+            image: e.target.files[0]
+        })
+    }
     
     onSubmitMessageClickHandler = (e) => {
+        e.preventDefault()
+
         if(!this.state.message.trim()) {
             this.setState({errorMessage: `Message is empty.`})
             return
         }
-        this.props.onSubmitMessage(this.state.message, this.state.user.email)
+
+        this.props.onSubmitMessage(this.state.message, this.state.user.email, this.state.image)
         this.setState({
-            errorMessage: null
+            errorMessage: null,
+            image: null,
+            message: ''
         })
-        e.preventDefault()
     }
 
     render() {
@@ -45,9 +56,10 @@ class Posts extends Component {
                 <Form className="px-3 pb-3 w-100">
                     <FormGroup className="Message">
                         <Label for="message">Tell us whats on your mind</Label>
-                        <Input type="textarea" name="message" onChange={this.onChangeHandler} />
+                        <Input type="textarea" name="message" onChange={this.onChangeHandler} value={this.state.message} />
                     </FormGroup>
                     <Button onClick={this.onSubmitMessageClickHandler}>Submit</Button> &nbsp;
+                    <Label className="my-1"><input type="file" name="image" onChange={this.onImgChangeHandler} /></Label>
                     {this.state.errorMessage ? <Label className="text-danger posts-err-msg">{this.state.errorMessage}</Label> : null}
                 </Form>
             )
@@ -77,7 +89,9 @@ const mapToStateProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitMessage: (message, email) => dispatch(submit_post(message, email)),
+        onSubmitMessage: (message, email, img) => {
+            dispatch(submit_post(message, email, img)
+        )},
         onLoadDataFromDb: () => dispatch(loadPostsFromDb())
     }
 }

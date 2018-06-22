@@ -13,7 +13,8 @@ const reducer = (state = initalState, action) => {
                 message: action.post.message, 
                 date: action.post.date,  
                 time: action.post.time,
-                postId: action.post.postId
+                postId: action.post.postId,
+                imgDownloadURL: action.post.imgDownloadURL
             })
             return {
                 ...state,
