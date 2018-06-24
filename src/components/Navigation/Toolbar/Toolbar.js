@@ -3,7 +3,7 @@ import './Toolbar.css'
 import { connect } from 'react-redux'
 import { store_user, delete_user } from '../../../store/actions/actions'
 import firebase, { auth } from '../../../firebase'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Logo from '../../../assets/images/logo.png'
 import {
     Collapse,
@@ -20,8 +20,6 @@ import {
     Label,
     Input,
     Button,
-    NavItem,
-    NavLink
 } from 'reactstrap'
 
 class Toolbar extends Component {

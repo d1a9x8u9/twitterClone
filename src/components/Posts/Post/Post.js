@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Card, CardText, CardBody, CardTitle, CardSubtitle, CardImg, Button } from 'reactstrap'
+import { Card, CardText, CardBody, CardTitle, CardSubtitle, CardImg } from 'reactstrap'
 import './Post.css'
 
 const post = (props) => (

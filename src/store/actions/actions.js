@@ -1,8 +1,7 @@
-import firebase, {
-    storage
+import {
+    storage,
+    db
 } from '../../firebase'
-
-const db = firebase.database()
 
 export const STORE_USER = 'STORE_USER'
 export const DELETE_USER = 'DELETE_USER'
@@ -30,24 +29,32 @@ export const savePostsFromDb = (posts) => {
 }
 
 export const loadPostsFromDb = () => {
-    return dispatch => {
-        let posts = []
-        db.ref(`posts/`).once('value')
-            .then(snapshot => {
-                const dbPosts = snapshot.val()
-                if (!dbPosts)
-                    return
-                for (const [key, value] of Object.entries(dbPosts)) {
-                    let post = {
-                        id: key
-                    }
+    return async dispatch => {
+        
+        const downloadCurrentPostsFromFirestore = async () => {
+            const firebasePostsBlob = await db.ref(`posts/`).once('value')
+            const currentlyStoredPosts = firebasePostsBlob.val()
+            let posts = []
 
-                    for (const [k, v] of Object.entries(value)) post[k] = v
-                    posts.push(post)
-                }
-                posts.reverse()
-                dispatch(savePostsFromDb(posts))
-            })
+            if (!currentlyStoredPosts)
+                return
+
+            for (const [key, value] of Object.entries(currentlyStoredPosts)) {
+                let post = {id: key}
+                for (const [k, v] of Object.entries(value)) post[k] = v
+                posts.push(post)
+            }
+
+            return posts.reverse()
+        }
+
+        try {
+            const currentPosts = await downloadCurrentPostsFromFirestore()
+            
+            return dispatch(savePostsFromDb(currentPosts))
+        } catch (err) {
+            return console.log(err)
+        }
     }
 }
 
@@ -66,61 +73,40 @@ export const savePost = (date, time, message, email, postId, imgDownloadURL = nu
 }
 
 export const submit_post = (message, email, img) => {
-    return dispatch => {
-        const
-            newPostKey = db.ref().child('posts').push().key,
-            today = new Date(),
-            date = today.toDateString(),
-            postTime = today.toLocaleTimeString('en-US'),
-            storageRef = storage.ref(),
-            postImgRef = storageRef.child(`images/${newPostKey}.jpg`)
+    return async dispatch => {
 
-        if (img) {
-            const uploadTask = postImgRef.put(img)
-            uploadTask.on('state_changed', snapshot => {
-                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done')
-                switch (snapshot.state) {
-                    case firebase.storage.TaskState.PAUSED:
-                        console.log('Upload is paused')
-                        break;
-                    case firebase.storage.TaskState.RUNNING:
-                        console.log('Upload is running')
-                        break;
-                }
-            }, err => {
-                console.log('[Actions.js] err uploading img!', err)
-            }, () => {
-                uploadTask.snapshot.ref.getDownloadURL()
-                    .then(imgDownloadURL => {
-                        db.ref('/posts/' + newPostKey).set({
-                                author: email,
-                                message: message,
-                                date: date,
-                                time: postTime,
-                                imgDownloadURL: imgDownloadURL
-                            })
-                            .then(() => {
-                                dispatch(savePost(date, postTime, message, email, newPostKey, imgDownloadURL))
-                            })
-                            .catch((err) => {
-                                console.log("[actions.js] submit_post error!", err)
-                            })
-                    });
-            });
-        } else {
-            db.ref('/posts/' + newPostKey).set({
-                    author: email,
-                    message: message,
-                    date: date,
-                    time: postTime
-                })
-                .then(() => {
-                    dispatch(savePost(date, postTime, message, email, newPostKey))
-                })
-                .catch((err) => {
-                    console.log("[actions.js] submit_post error!", err)
-                })
+        const uploadImgToFirestoreAndRetreiveDownloadURL = async (img, postId, date, postTime) => {
+            if (!img)
+                return null
+
+            const uploadTask = await storage.ref().child(`images/${postId}.jpg`).put(img)
+
+            return uploadTask.ref.getDownloadURL()
+        }
+
+        const uploadPostToFirestore = (postId, email, message, date, postTime, imgDownloadURL) => {
+            return db.ref(`/posts/${postId}`).set({
+                author: email,
+                message: message,
+                date: date,
+                time: postTime,
+                imgDownloadURL: imgDownloadURL
+            })
+        }
+
+        try {
+            const
+                newPostKey = db.ref().child('posts').push().key,
+                today = new Date(),
+                date = today.toDateString(),
+                postTime = today.toLocaleTimeString('en-US'),
+                imgDownloadURL = await uploadImgToFirestoreAndRetreiveDownloadURL(img, newPostKey, date, postTime)
+
+            uploadPostToFirestore(newPostKey, email, message, date, postTime, imgDownloadURL)
+
+            return dispatch(savePost(date, postTime, message, email, newPostKey, imgDownloadURL))
+        } catch (err) {
+            return console.log(err)
         }
     }
 }

@@ -17,9 +17,9 @@ const reducer = (state = initalState, action) => {
                 ...state,
                 user: null
             }
+        default:
+            return state
         }
-
-        return state
 }
 
 export default reducer
