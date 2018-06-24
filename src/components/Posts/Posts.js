@@ -41,6 +41,11 @@ class Posts extends Component {
             return
         }
 
+        if(this.state.image.size > 5000000) {
+            this.setState({errorMessage: `The image resolution is too high!`})
+            return
+        }
+
         this.props.onSubmitMessage(this.state.message, this.state.user.email, this.state.image)
         this.setState({
             errorMessage: null,
