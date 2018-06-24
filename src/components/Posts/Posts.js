@@ -75,12 +75,12 @@ class Posts extends Component {
             
         return(
             <div className="Posts">
+                <div className="text-danger text-center">The webapp is currently only optimized for mobile phones and will most likely look plain on desktops.</div>
                 {createPostView}
                 <div className="w-100 px-1">
                     {postsView}
                 </div>
             </div>
-           
         )
     }
 }
