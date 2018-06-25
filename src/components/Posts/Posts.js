@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { auth } from '../../firebase'
 import './Posts.css'
-import { submit_post, loadPostsFromDb } from '../../store/actions/actions'
+import { submit_post } from '../../store/actions/actions'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import Post from './Post/Post'
 
@@ -17,7 +17,6 @@ class Posts extends Component {
     componentWillMount = () => {
         auth.onAuthStateChanged( user => {
             this.setState({user: user})
-            this.props.onLoadDataFromDb()
         })
     }
 
@@ -96,8 +95,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onSubmitMessage: (message, email, img) => {
             dispatch(submit_post(message, email, img)
-        )},
-        onLoadDataFromDb: () => dispatch(loadPostsFromDb())
+        )}
     }
 }
 

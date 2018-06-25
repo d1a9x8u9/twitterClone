@@ -7,6 +7,7 @@ export const STORE_USER = 'STORE_USER'
 export const DELETE_USER = 'DELETE_USER'
 export const SUBMIT_POST = 'SUBMIT_POST'
 export const LOAD_POSTS_FROM_DB = 'LOAD_POSTS_FROM_DB'
+export const DELETE_POST = 'DELETE_POST'
 
 export const store_user = (user) => {
     return {
@@ -21,10 +22,30 @@ export const delete_user = () => {
     }
 }
 
+export const delete_post = (postId) => {
+    return {
+        type: DELETE_POST,
+        postId: postId
+    }
+}
+
 export const savePostsFromDb = (posts) => {
     return {
         type: LOAD_POSTS_FROM_DB,
         posts: posts
+    }
+}
+
+export const deletePostFromDb = (postId) => {
+    return async dispatch => {
+        try {
+            await db.ref(`/posts/${postId}`).remove()
+            await storage.ref().child(`images/${postId}.jpg`).delete()
+
+            return dispatch(delete_post(postId))
+        } catch (err) {
+            return console.log(err)
+        }
     }
 }
 
@@ -40,11 +61,11 @@ export const loadPostsFromDb = () => {
                 return
 
             for (const [key, value] of Object.entries(currentlyStoredPosts)) {
-                let post = {id: key}
+                let post = {}
                 for (const [k, v] of Object.entries(value)) post[k] = v
                 posts.push(post)
             }
-
+            
             return posts.reverse()
         }
 
@@ -90,6 +111,7 @@ export const submit_post = (message, email, img) => {
                 message: message,
                 date: date,
                 time: postTime,
+                postId: postId,
                 imgDownloadURL: imgDownloadURL
             })
         }

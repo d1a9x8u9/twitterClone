@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import './Toolbar.css'
 import { connect } from 'react-redux'
-import { store_user, delete_user } from '../../../store/actions/actions'
+import { store_user, delete_user, loadPostsFromDb } from '../../../store/actions/actions'
 import firebase, { auth } from '../../../firebase'
 import { withRouter } from 'react-router-dom'
 import Logo from '../../../assets/images/logo.png'
@@ -41,11 +41,12 @@ class Toolbar extends Component {
                 LoadedData: true,
                 isOpen: false
             })
+            this.props.loadPostsFromDb()
         })
     }
 
-    onSignupClickHandler = () => {
-        this.props.history.push('/signup')
+    routeClickHandler = (e) => {
+        this.props.history.push(`/${e.target.name}`)
     }
 
     onChangeHandler = (e) => {
@@ -101,7 +102,7 @@ class Toolbar extends Component {
                             {this.props.user.email}
                         </DropdownToggle>
                         <DropdownMenu right className="DropDownMenu">
-                            <DropdownItem>
+                            <DropdownItem name="profile" onClick={this.routeClickHandler}>
                                 Profile
                             </DropdownItem>
                             <DropdownItem>
@@ -134,7 +135,7 @@ class Toolbar extends Component {
                                 <Button type="button" className="btn-block" onClick={this.onSubmitLoginHandler}>Submit</Button>
                             </Form>
                             <DropdownItem divider />
-                            <DropdownItem className="text-center text-primary" onClick={this.onSignupClickHandler}>
+                            <DropdownItem name="signup" className="text-center text-primary" onClick={this.routeClickHandler}>
                                 Signup
                             </DropdownItem>
                         </DropdownMenu>
@@ -170,7 +171,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onStoreUser: (user) => dispatch(store_user(user)),
-        onDeleteUser: () => dispatch(delete_user())
+        onDeleteUser: () => dispatch(delete_user()),
+        loadPostsFromDb: () => dispatch(loadPostsFromDb()),
     }
 }
 

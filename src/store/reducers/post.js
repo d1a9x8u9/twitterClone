@@ -25,6 +25,16 @@ const reducer = (state = initalState, action) => {
                 ...state,
                 posts: action.posts
             }
+        case actionTypes.DELETE_POST:
+            const postsCopy = [...state.posts]
+            const indexOfPost = state.posts.findIndex( post => post.postId === action.postId)
+            postsCopy.splice(indexOfPost, 1)
+            
+            return {
+                ...state,
+                posts: postsCopy
+            }
+
         default:
             return state
     }
