@@ -11,7 +11,7 @@ class Post extends Component {
 
         if(this.props.user && this.props.user.email === this.props.post.author)  
             deleteView = (
-                <i className="fas fa-times" onClick={() => this.props.deletePostFromDb(this.props.post.postId)}></i>
+                <i className="fas fa-times" onClick={() => this.props.deletePostFromDb(this.props.post.postId, this.props.post.imgDownloadURL)}></i>
             )
             
         return (
@@ -42,7 +42,7 @@ const mapToStateProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deletePostFromDb: (postId) => dispatch(deletePostFromDb(postId))
+        deletePostFromDb: (postId, imgURL) => dispatch(deletePostFromDb(postId,imgURL))
     }
 }
 

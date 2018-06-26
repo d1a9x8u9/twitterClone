@@ -40,7 +40,7 @@ class Posts extends Component {
             return
         }
 
-        if(this.state.image.size > 5000000) {
+        if(this.state.image && this.state.image.size > 5000000) {
             this.setState({errorMessage: `The image resolution is too high!`})
             return
         }

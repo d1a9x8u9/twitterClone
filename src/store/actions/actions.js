@@ -36,11 +36,12 @@ export const savePostsFromDb = (posts) => {
     }
 }
 
-export const deletePostFromDb = (postId) => {
+export const deletePostFromDb = (postId, imgURL) => {
     return async dispatch => {
         try {
             await db.ref(`/posts/${postId}`).remove()
-            await storage.ref().child(`images/${postId}.jpg`).delete()
+            if(imgURL)
+                await storage.ref().child(`images/${postId}.jpg`).delete()
 
             return dispatch(delete_post(postId))
         } catch (err) {
