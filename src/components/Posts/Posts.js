@@ -51,6 +51,7 @@ class Posts extends Component {
             image: null,
             message: ''
         })
+        this.inputImg.value=''
     }
 
     render() {
@@ -63,7 +64,7 @@ class Posts extends Component {
                         <Input type="textarea" name="message" onChange={this.onChangeHandler} value={this.state.message} />
                     </FormGroup>
                     <Button onClick={this.onSubmitMessageClickHandler}>Submit</Button> &nbsp;
-                    <Label className="my-1"><input type="file" name="image" onChange={this.onImgChangeHandler} /></Label>
+                    <Label className="my-1"><input ref={el => this.inputImg = el} type="file" name="image" onChange={this.onImgChangeHandler} /></Label>
                     {this.state.errorMessage ? <Label className="text-danger posts-err-msg">{this.state.errorMessage}</Label> : null}
                 </Form>
             )

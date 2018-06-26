@@ -8,6 +8,14 @@ export const DELETE_USER = 'DELETE_USER'
 export const SUBMIT_POST = 'SUBMIT_POST'
 export const LOAD_POSTS_FROM_DB = 'LOAD_POSTS_FROM_DB'
 export const DELETE_POST = 'DELETE_POST'
+export const UPDATE_PROGRESS_BAR = 'UPDATE_PROGRESS_BAR'
+
+export const update_progress_bar = (val) => {
+    return {
+        type: UPDATE_PROGRESS_BAR,
+        val: val
+    }
+}
 
 export const store_user = (user) => {
     return {
@@ -40,9 +48,12 @@ export const deletePostFromDb = (postId, imgURL) => {
     return async dispatch => {
         try {
             await db.ref(`/posts/${postId}`).remove()
+            dispatch(update_progress_bar(20))
+
             if(imgURL)
                 await storage.ref().child(`images/${postId}.jpg`).delete()
-
+            dispatch(update_progress_bar(100))
+            
             return dispatch(delete_post(postId))
         } catch (err) {
             return console.log(err)
@@ -56,6 +67,8 @@ export const loadPostsFromDb = () => {
         const downloadCurrentPostsFromFirestore = async () => {
             const firebasePostsBlob = await db.ref(`posts/`).once('value')
             const currentlyStoredPosts = firebasePostsBlob.val()
+            dispatch(update_progress_bar(50))
+            
             let posts = []
 
             if (!currentlyStoredPosts)
@@ -72,6 +85,7 @@ export const loadPostsFromDb = () => {
 
         try {
             const currentPosts = await downloadCurrentPostsFromFirestore()
+            dispatch(update_progress_bar(100))
             
             return dispatch(savePostsFromDb(currentPosts))
         } catch (err) {
@@ -100,8 +114,11 @@ export const submit_post = (message, email, img) => {
         const uploadImgToFirestoreAndRetreiveDownloadURL = async (img, postId, date, postTime) => {
             if (!img)
                 return null
+            
+            dispatch(update_progress_bar(20))
 
             const uploadTask = await storage.ref().child(`images/${postId}.jpg`).put(img)
+            dispatch(update_progress_bar(60))
 
             return uploadTask.ref.getDownloadURL()
         }
@@ -124,8 +141,12 @@ export const submit_post = (message, email, img) => {
                 date = today.toDateString(),
                 postTime = today.toLocaleTimeString('en-US'),
                 imgDownloadURL = await uploadImgToFirestoreAndRetreiveDownloadURL(img, newPostKey, date, postTime)
+            
+            dispatch(update_progress_bar(80))
 
             uploadPostToFirestore(newPostKey, email, message, date, postTime, imgDownloadURL)
+            
+            dispatch(update_progress_bar(100))
 
             return dispatch(savePost(date, postTime, message, email, newPostKey, imgDownloadURL))
         } catch (err) {

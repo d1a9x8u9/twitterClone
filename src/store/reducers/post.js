@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actions'
 
 const initalState = {
     posts: [],
+    progress: 0
 }
 
 const reducer = (state = initalState, action) => {
@@ -33,6 +34,11 @@ const reducer = (state = initalState, action) => {
             return {
                 ...state,
                 posts: postsCopy
+            }
+        case actionTypes.UPDATE_PROGRESS_BAR:
+            return {
+                ...state,
+                progress: action.val
             }
 
         default:
