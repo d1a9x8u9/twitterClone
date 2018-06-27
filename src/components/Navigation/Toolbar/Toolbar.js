@@ -20,6 +20,8 @@ import {
     Label,
     Input,
     Button,
+    NavItem,
+    NavLink,
 } from 'reactstrap'
 
 class Toolbar extends Component {
@@ -149,6 +151,12 @@ class Toolbar extends Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
+                            <NavItem>
+                                <NavLink href="https://drive.google.com/open?id=1M86Qq4FVHdtDwgiEjIY5etuqhXX3qTnz">Resume</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="https://github.com/d1a9x8u9/twitterClone">GitHub</NavLink>
+                            </NavItem>
                             <Nav navbar>
                                 <UncontrolledDropdown nav inNavbar>
                                     {userMenu}
