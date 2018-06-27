@@ -6,6 +6,10 @@
     width: 7.5vh;
 }
 
+.DropDownMenu {
+    width: 100%
+}
+
 @media (min-width: 700px) {
     .DropDownMenu {
         width: 300px !important;

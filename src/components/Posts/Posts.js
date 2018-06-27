@@ -11,13 +11,21 @@ class Posts extends Component {
         user: null,
         message: '',
         image: null,
-        errorMessage: null
+        errorMessage: null,
+        unsubscribe: null
     }
 
     componentWillMount = () => {
-        auth.onAuthStateChanged( user => {
-            this.setState({user: user})
+        const unsubscribe = auth.onAuthStateChanged( user => {
+            this.setState({
+                user: user,
+                unsubscribe: unsubscribe
+            })
         })
+    }
+
+    componentWillUnmount = () => {
+        this.state.unsubscribe()
     }
 
     onChangeHandler = (e) => {
@@ -58,7 +66,7 @@ class Posts extends Component {
         let createPostView = null
         if(this.state.user) 
             createPostView = (
-                <Form className="px-3 pb-3 w-100">
+                <Form className="px-3 pb-3 w-95">
                     <FormGroup className="Message">
                         <Label for="message">Tell us whats on your mind</Label>
                         <Input type="textarea" name="message" onChange={this.onChangeHandler} value={this.state.message} />
@@ -77,7 +85,7 @@ class Posts extends Component {
             <div className="Posts">
                 <div className="text-danger text-center">The webapp is currently only optimized for mobile phones and will most likely look plain on desktops.</div>
                 {createPostView}
-                <div className="w-100 px-1">
+                <div className="w-95 px-1">
                     {postsView}
                 </div>
             </div>

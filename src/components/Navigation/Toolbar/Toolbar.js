@@ -149,7 +149,7 @@ class Toolbar extends Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            <Nav className="ml" navbar>
+                            <Nav navbar>
                                 <UncontrolledDropdown nav inNavbar>
                                     {userMenu}
                                 </UncontrolledDropdown>

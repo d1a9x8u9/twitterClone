@@ -38,7 +38,7 @@ class Post extends Component {
                 {this.props.post.imgDownloadURL ? <CardImg top width="100%" src={this.props.post.imgDownloadURL} alt='img.jpg' /> : null}
                 <div className="px-2 text-right">
                     <i className="far fa-thumbs-up"></i>
-                    <i className="far fa-heart pl-2"></i>
+                    <i className="far fa-heart pl-3"></i>
                 </div>
                 <CardBody className="pt-2 pb-1 px-1 text-right">
                     <CardSubtitle className="CardSubtitle">{this.props.post.date}&nbsp;{this.props.post.time}</CardSubtitle>

@@ -86,6 +86,8 @@ export const loadPostsFromDb = () => {
         try {
             const currentPosts = await downloadCurrentPostsFromFirestore()
             dispatch(update_progress_bar(100))
+            if(!currentPosts)
+                return
             
             return dispatch(savePostsFromDb(currentPosts))
         } catch (err) {

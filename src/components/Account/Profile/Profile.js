@@ -5,7 +5,7 @@ import './Profile.css'
 
 class Profile extends Component {
     componentWillMount  = () => {
-        if(!this.props.user)
+        if(!this.props.user && !this.props.posts)
             this.props.history.push('/')
     }
 
@@ -15,7 +15,9 @@ class Profile extends Component {
         if(this.props.user && this.props.posts) {
             let filterAllPostsOnAuthor = this.props.posts.filter( post => post.author === this.props.user.email)
             postsView = filterAllPostsOnAuthor.map( (post, index) => <Post key={index} post={post}/> )
-        }
+        } 
+        else 
+            postsView = this.props.posts.map( (post, index) => <Post key={index} post={post}/> )
 
         return(
             <div className="mx-1 Profile">

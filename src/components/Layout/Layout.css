@@ -1,11 +1,4 @@
-.Progress {
-    height: 2px;
-}
-
 @media (min-width: 700px) {
-    .Progress {
-        height: 1px;
-    }
     .container {
         height: 100% !important;
     }

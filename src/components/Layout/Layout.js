@@ -9,10 +9,8 @@ import { connect } from 'react-redux'
 
 const layout = (props) => (
             <div className="layout">
-                <div className="Progress">
-                    <Progress color="danger" value={props.progress} />
-                </div>
                 <Toolbar />
+                <Progress style={{height: '4px'}} color="warning" value={props.progress} />
                 <Container className="container">
                     <Row className="justify-content-md-center">
                         {props.children}            
