@@ -1,11 +1,27 @@
 .Form {
     width: 100%;
-    padding: 2vh;
+    padding: 0 2vh 3vh;
+    height: auto;
+}
+
+.SignupTitle{
+    font-family: 'Oswald', sans-serif; 
+    text-align: center;
+    font-size: 7vh;
+    width: 100%;
 }
 
 @media (min-width: 700px) {
     .Form {
         width: 50%;
-        padding: 100px 0 0 0;
+        padding: 5vh 0;
+        margin: 5vh 0;
+        height: 100%;
+    }
+
+    .SignupTitle{
+        font-family: 'Oswald', sans-serif; 
+        text-align: center;
+        font-size: 5vh;
     }
 }

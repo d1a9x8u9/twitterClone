@@ -4,8 +4,8 @@ import Post from '../../Posts/Post/Post'
 import './Profile.css'
 
 class Profile extends Component {
-    componentWillMount  = () => {
-        if(!this.props.user && !this.props.posts)
+    componentDidMount = () => {
+        if(!this.props.user)
             this.props.history.push('/')
     }
 
