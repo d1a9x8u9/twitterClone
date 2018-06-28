@@ -7,6 +7,12 @@
     background-color: aliceblue;
 }
 
+.posts-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 4.5vh;
+    padding: 2vh 0 0;
+}
+
 .posts-err-msg {
     font-style: italic;
 }

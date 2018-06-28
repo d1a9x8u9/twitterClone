@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import './Toolbar.css'
 import { connect } from 'react-redux'
-import { store_user, delete_user, loadPostsFromDb } from '../../../store/actions/actions'
 import firebase, { auth } from '../../../firebase'
+import { delete_user, store_user, loadPostsFromDb } from '../../../store/actions/actions'
 import { withRouter } from 'react-router-dom'
 import Logo from '../../../assets/images/logo.png'
 import {
@@ -32,23 +32,31 @@ class Toolbar extends Component {
         },
         errorMessage: null,
         LoadedData: false,
-        isOpen: false
+        isOpen: false,
+        unsubscribe: null
     }
 
-    componentWillMount = () => {
-        auth.onAuthStateChanged(user => {
+    componentDidMount = () => {
+        const unsubscribe = auth.onAuthStateChanged( user => {
             if (user)
                 this.props.onStoreUser(user)
-            this.setState({
-                LoadedData: true,
-                isOpen: false
-            })
             this.props.loadPostsFromDb()
+            this.setState({
+                user: user,
+                LoadedData: true,
+                isOpen: false,
+                unsubscribe: unsubscribe
+            })
         })
     }
 
+    componentWillUnmount = () => {
+        this.state.unsubscribe()
+    }
+    
     routeClickHandler = (e) => {
         this.props.history.push(`/${e.target.name}`)
+        this.toggle()
     }
 
     onChangeHandler = (e) => {
@@ -68,7 +76,6 @@ class Toolbar extends Component {
                     errorMessage: err.message
                 })
             })
-        e.preventDefault()
     }
 
     onLogoutClickHandler = () => {
@@ -178,8 +185,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onStoreUser: (user) => dispatch(store_user(user)),
         onDeleteUser: () => dispatch(delete_user()),
+        onStoreUser: (user) => dispatch(store_user(user)),
         loadPostsFromDb: () => dispatch(loadPostsFromDb()),
     }
 }

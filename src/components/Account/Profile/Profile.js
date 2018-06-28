@@ -20,8 +20,12 @@ class Profile extends Component {
             postsView = this.props.posts.map( (post, index) => <Post key={index} post={post}/> )
 
         return(
-            <div className="mx-1 Profile">
-                {postsView}
+            <div className="Profile">
+                <div className="h2 text-center profile-title">My Posts</div>
+                <hr />
+                <div className="px-1">
+                    {postsView}
+                </div>
             </div>
         )
     }

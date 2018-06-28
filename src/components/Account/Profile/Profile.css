@@ -1,3 +1,21 @@
 .Profile {
+    max-width: 100%;
     background-color: aliceblue;
+}
+
+.profile-title {
+    font-family: 'Oswald', sans-serif;
+    padding: 2vh 0 0 0;
+}
+
+@media (min-width: 700px) {
+    .Profile {
+        max-width: 70%;
+        background-color: aliceblue;
+        padding: 2vh 10vh;
+    }
+    
+    .profile-title {
+        font-family: 'Oswald', sans-serif;
+    }
 }

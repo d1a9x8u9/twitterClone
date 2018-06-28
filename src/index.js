@@ -20,10 +20,13 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const reduxStore = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
-ReactDOM.render(
-    <BrowserRouter>
-        <Provider store={reduxStore}>
+const app = (
+    <Provider store={reduxStore}>
+        <BrowserRouter>
             <App />
-        </Provider>
-    </BrowserRouter>, document.getElementById('root'));
+        </BrowserRouter>
+    </Provider>
+)
+
+ReactDOM.render(app, document.getElementById('root'));
 registerServiceWorker();

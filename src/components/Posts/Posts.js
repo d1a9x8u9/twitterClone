@@ -15,7 +15,7 @@ class Posts extends Component {
         unsubscribe: null
     }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         const unsubscribe = auth.onAuthStateChanged( user => {
             this.setState({
                 user: user,
@@ -66,7 +66,7 @@ class Posts extends Component {
         let createPostView = null
         if(this.state.user) 
             createPostView = (
-                <Form className="px-3 pb-3 w-95">
+                <Form className="px-3 mb-2 w-95">
                     <FormGroup className="Message">
                         <Label for="message">Tell us whats on your mind</Label>
                         <Input type="textarea" name="message" onChange={this.onChangeHandler} value={this.state.message} />
@@ -74,6 +74,7 @@ class Posts extends Component {
                     <Button onClick={this.onSubmitMessageClickHandler}>Submit</Button> &nbsp;
                     <Label className="my-1"><input ref={el => this.inputImg = el} type="file" name="image" onChange={this.onImgChangeHandler} /></Label>
                     {this.state.errorMessage ? <Label className="text-danger posts-err-msg">{this.state.errorMessage}</Label> : null}
+                    <hr />
                 </Form>
             )
         
@@ -84,6 +85,8 @@ class Posts extends Component {
         return(
             <div className="Posts">
                 {createPostView}
+                <div className="text-center posts-title">Things happening in the world</div>
+                <hr />
                 <div className="w-95 px-1">
                     {postsView}
                 </div>
