@@ -56,7 +56,8 @@ class Toolbar extends Component {
     
     routeClickHandler = (e) => {
         this.props.history.push(`/${e.target.name}`)
-        this.toggle()
+        if(this.state.isOpen)
+            this.toggle()
     }
 
     onChangeHandler = (e) => {
