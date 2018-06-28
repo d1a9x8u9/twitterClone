@@ -48,6 +48,11 @@ class Posts extends Component {
             return
         }
 
+        if(this.state.message.trim().length > 140) {
+            this.setState({errorMessage: `Post is too long!`})
+            return
+        }
+
         if(this.state.image && this.state.image.size > 5000000) {
             this.setState({errorMessage: `The image resolution is too high!`})
             return
@@ -69,7 +74,8 @@ class Posts extends Component {
                 <Form className="px-3 mb-2 w-95">
                     <FormGroup className="Message">
                         <Label for="message">Tell us whats on your mind</Label>
-                        <Input type="textarea" name="message" onChange={this.onChangeHandler} value={this.state.message} />
+                        <Input type="textarea" name="message" onChange={this.onChangeHandler} value={this.state.message} /> 
+                        <div className="MessageLength">{this.state.message.length}/140</div>
                     </FormGroup>
                     <Button onClick={this.onSubmitMessageClickHandler}>Submit</Button> &nbsp;
                     <Label className="my-1"><input ref={el => this.inputImg = el} type="file" name="image" onChange={this.onImgChangeHandler} /></Label>
