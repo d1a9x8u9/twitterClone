@@ -6,6 +6,7 @@
 .Posts {
     width: 100%;
     background-color: aliceblue;
+    min-height: 85vh;
 }
 
 .posts-title {

@@ -2,28 +2,23 @@ import React from 'react'
 
 import { Container, Row } from 'reactstrap'
 import Toolbar from '../Navigation/Toolbar/Toolbar'
-import Footer from '../Navigation/Footer/Footer'
 import './Layout.css'
-import { Progress } from 'reactstrap'
 import { connect } from 'react-redux'
+import Loading from '../Navigation/Loading/Loading'
 
 const layout = (props) => (
             <div className="layout">
                 <Toolbar />
-                <Progress style={{height: '4px'}} color="warning" value={props.progress} />
                 <Container className="container">
                     <Row className="justify-content-md-center">
-                        {props.children}            
+                        {props.progress === 100 ? props.children : <Loading />}            
                     </Row>
                 </Container>
-                <Footer />
             </div>
         )
 
 const mapToStateProps = state => {
     return {
-        user: state.userPreCombine.user,
-        posts: state.post.posts,
         progress: state.post.progress
     }
 }

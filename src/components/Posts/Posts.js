@@ -12,14 +12,16 @@ class Posts extends Component {
         message: '',
         image: null,
         errorMessage: null,
-        unsubscribe: null
+        unsubscribe: null,
+        loaded: false
     }
 
     componentDidMount = () => {
         const unsubscribe = auth.onAuthStateChanged( user => {
             this.setState({
                 user: user,
-                unsubscribe: unsubscribe
+                unsubscribe: unsubscribe,
+                loaded: true
             })
         })
     }
@@ -83,18 +85,17 @@ class Posts extends Component {
                     <hr />
                 </Form>
             )
-        
-        let postsView = this.props.posts.map( (post, index) => {
-            return <Post key={index} post={post}/>
-        })
+
+        let postsView = null
+
+        if(this.props.posts)
+            postsView = this.props.posts.map( (post, index) => <Post key={index} post={post}/>)
             
         return(
             <div className="Posts">
-                {createPostView}
-                <div className="text-center posts-title">Things happening in the world</div>
-                <hr />
                 <div className="w-95 px-1">
-                    {postsView}
+                        {createPostView}
+                        {postsView}
                 </div>
             </div>
         )
@@ -104,7 +105,7 @@ class Posts extends Component {
 const mapToStateProps = state => {
     return {
         user: state.userPreCombine.user,
-        posts: state.post.posts
+        posts: state.post.posts,
     }
 }
 
