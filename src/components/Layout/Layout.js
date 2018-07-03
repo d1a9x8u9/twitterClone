@@ -2,12 +2,11 @@ import React from 'react'
 
 import { Container, Row } from 'reactstrap'
 import Toolbar from '../Navigation/Toolbar/Toolbar'
-import './Layout.css'
 import { connect } from 'react-redux'
 import Loading from '../Navigation/Loading/Loading'
 
 const layout = (props) => (
-            <div className="layout">
+            <div className="w-100 h-100">
                 <Toolbar />
                 <Container className="container">
                     <Row className="justify-content-md-center">

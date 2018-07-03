@@ -47,8 +47,9 @@ export const savePostsFromDb = (posts) => {
 export const deletePostFromDb = (postId, imgURL) => {
     return async dispatch => {
         try {
+            dispatch(update_progress_bar(0))
+
             await db.ref(`/posts/${postId}`).remove()
-            dispatch(update_progress_bar(20))
 
             if(imgURL)
                 await storage.ref().child(`images/${postId}.jpg`).delete()
@@ -67,7 +68,6 @@ export const loadPostsFromDb = () => {
         const downloadCurrentPostsFromFirestore = async () => {
             const firebasePostsBlob = await db.ref(`posts/`).once('value')
             const currentlyStoredPosts = firebasePostsBlob.val()
-            dispatch(update_progress_bar(50))
             
             let posts = []
 
@@ -84,6 +84,7 @@ export const loadPostsFromDb = () => {
         }
 
         try {
+            dispatch(update_progress_bar(0))
             const currentPosts = await downloadCurrentPostsFromFirestore()
             dispatch(update_progress_bar(100))
             if(!currentPosts)
@@ -116,11 +117,8 @@ export const submit_post = (message, email, img) => {
         const uploadImgToFirestoreAndRetreiveDownloadURL = async (img, postId, date, postTime) => {
             if (!img)
                 return null
-            
-            dispatch(update_progress_bar(20))
 
             const uploadTask = await storage.ref().child(`images/${postId}.jpg`).put(img)
-            dispatch(update_progress_bar(60))
 
             return uploadTask.ref.getDownloadURL()
         }
@@ -137,6 +135,8 @@ export const submit_post = (message, email, img) => {
         }
 
         try {
+            dispatch(update_progress_bar(0))
+
             const
                 newPostKey = db.ref().child('posts').push().key,
                 today = new Date(),
@@ -144,8 +144,6 @@ export const submit_post = (message, email, img) => {
                 postTime = today.toLocaleTimeString('en-US'),
                 imgDownloadURL = await uploadImgToFirestoreAndRetreiveDownloadURL(img, newPostKey, date, postTime)
             
-            dispatch(update_progress_bar(80))
-
             uploadPostToFirestore(newPostKey, email, message, date, postTime, imgDownloadURL)
             
             dispatch(update_progress_bar(100))

@@ -6,12 +6,8 @@
     width: 8vh;
 }
 
-.DropDownMenu {
-    width: 100%
-}
-
 @media (min-width: 700px) {
     .DropDownMenu {
-        width: 300px !important;
+        width: 300px;
     }
 }

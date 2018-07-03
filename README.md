@@ -15,5 +15,5 @@ If you don't have a Google Firebase API key, you can get one [here](https://fire
 Your ```.env``` file should look like this at the end of this step:
 > REACT_APP_FIREBASE = 1*************************ZH5szIATzU
 
-Fire her up. In the root folder, run the cmd:
+Fire it up. In the root folder, run the cmd:
 > npm start 
