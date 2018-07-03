@@ -115,9 +115,6 @@ class Toolbar extends Component {
                             <DropdownItem name="profile" onClick={this.routeClickHandler}>
                                 Profile
                             </DropdownItem>
-                            <DropdownItem>
-                                Account Settings
-                            </DropdownItem>
                             <DropdownItem divider />
                             <DropdownItem onClick={this.onLogoutClickHandler}>
                                 Logout

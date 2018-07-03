@@ -31,9 +31,12 @@ class Posts extends Component {
     }
 
     onChangeHandler = (e) => {
-        this.setState({
-            message: e.target.value
-        })
+        if(e.target.value.length <= 140)  
+            this.setState({
+                message: e.target.value
+            })
+        else 
+            return
     }
 
     onImgChangeHandler = (e) => {
