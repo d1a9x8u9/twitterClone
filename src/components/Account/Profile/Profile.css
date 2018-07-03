@@ -10,9 +10,9 @@
 
 @media (min-width: 700px) {
     .Profile {
-        max-width: 70%;
+        max-width: 100%;
         background-color: aliceblue;
-        padding: 2vh 10vh;
+        padding: 2vh 20vh;
     }
     
     .profile-title {

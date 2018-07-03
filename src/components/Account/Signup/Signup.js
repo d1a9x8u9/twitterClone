@@ -82,8 +82,6 @@ class Signup extends Component {
                             <Label for="tos">Placeholder</Label>
                         </FormGroup>
                     </div>
-
-
                     <Button onClick={this.onSubmitHandler}>Submit</Button>
                 </Form>
             )

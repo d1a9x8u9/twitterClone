@@ -53,7 +53,7 @@
 @media (min-width: 700px) {
   .Loading {
     min-height: 95vh;
-    max-width: 70%;
+    max-width: 100%;
     background-color: aliceblue;
     padding: 2vh 10vh;
     margin: 0;

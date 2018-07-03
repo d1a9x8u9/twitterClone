@@ -53,11 +53,6 @@ class Posts extends Component {
             return
         }
 
-        if(this.state.message.trim().length > 140) {
-            this.setState({errorMessage: `Post is too long!`})
-            return
-        }
-
         if(this.state.image && this.state.image.size > 5000000) {
             this.setState({errorMessage: `The image resolution is too high!`})
             return
