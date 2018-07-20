@@ -93,7 +93,9 @@ class Posts extends Component {
             <div className="Posts">
                 <div className="w-95 px-1">
                         {createPostView}
-                        {postsView}
+                        <div className="PostsView">
+                            {postsView}
+                        </div>
                 </div>
             </div>
         )

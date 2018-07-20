@@ -14,3 +14,22 @@
     margin: 0;
     padding: 0;
 }
+
+@media (min-width: 700px) {
+    .Card {
+        width: 30%;
+        margin: 4px;
+    }
+
+    .CardSubtitle {
+        font-size: 1.5vh;
+    }
+    
+    .CardText {
+        font-size: 2vh;
+    }
+    
+    .CardTitle {
+        font-size: 1vh;
+    }
+}

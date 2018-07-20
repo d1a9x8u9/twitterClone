@@ -35,11 +35,19 @@
     .Posts {
         max-width: 100%;
         background-color: aliceblue;
-        padding: 2vh 20vh;
+        padding: 2vh 0;
         margin: 0;
     }
     
     .posts-err-msg {
         font-style: italic;
+    }
+
+    .PostsView {
+        display: flex;
+        flex-flow: wrap row;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        box-sizing: border-box;
     }
 }
