@@ -149,9 +149,9 @@ class Toolbar extends Component {
                     </Fragment>
                 )
         }
-        return (
-            <Fragment>
-                <Navbar color="dark" dark expand="md">
+
+        let navBar = (
+            <Navbar color="dark" dark expand="md" fixed="top">
                     <NavbarBrand href="/"><img className="Logo" src={Logo} alt='logo.png' /></NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
@@ -170,6 +170,10 @@ class Toolbar extends Component {
                         </Nav>
                     </Collapse>
                 </Navbar>
+        )
+        return (
+            <Fragment>
+                {navBar}
             </Fragment>
         )
     }
