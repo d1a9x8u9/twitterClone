@@ -12,19 +12,18 @@ Download or fork this repo to your local machine. Now in the root folder, instal
 
 
 Create a ```.env``` file in the root folder and in it, a variable called ```REACT_APP_FIREBASE``` and assign your Google Firebase API key to it. 
-If you don't have a Google Firebase API key, you can get one [here](https://firebase.google.com/docs/web/setup) by signing up for a gmail account and then requesting one. 
-In your Google Firebase project page Develop tab, you have to initalize 3 things: 
+If you don't have a Google Firebase API key, you can get one [here](https://firebase.google.com/docs/web/setup) by signing up for a gmail account and then requesting one. We're going to have to initalize your Firebase services and this includes initalizing 3 things: 
 
-Firebase Authentication: Get Started, Authentication tab, Sign-in Method, Under Signin Providers, enable Email/Password. This allows users to create a login and password for the application.
+1. Firebase Authentication: Click on Get Started -> Authentication tab -> Sign-in Method Tab -> Sign-in Providers -> Email/Password -> Enable. This allows users to create a login and password for the application.
 
-Firebase Database: Click Get Started, then Real-Time database. Since this application is simple, we're going to use db in test mode.
+2. Firebase Database: Get Started -> Real-Time database -> Test Mode. It's a simple app, so we're not going to complicate things and stick with a test mode db.
 
-Firebase Storage: Click Get Started. This is where we're going to store user images. 
+3. Firebase Storage: Get Started. This is where we're going to store user images. 
 
 Your ```.env``` file should look like this at the end of this step:
 > REACT_APP_FIREBASE = 1*************************ZH5szIATzU
 
-In the ```.firebaserc``` file, change the project name to your firebase project's name. 
+In the ```.firebaserc``` file, change the project name to your Firebase project's name. 
 
 Now in ```src/firebase.js```, copy and paste your config object from your Firebase project config settings into the files config object. NOTE: Don't change this files ```apiKey``` variable because it's set to use the API key from the ```.env``` file you created. 
 
