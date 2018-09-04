@@ -10,12 +10,20 @@
 
 @media (min-width: 700px) {
     .Profile {
-        max-width: 100%;
+        width: 100%;
         background-color: aliceblue;
-        padding: 2vh 20vh;
+        padding: 2vh;
     }
     
     .profile-title {
         font-family: 'Oswald', sans-serif;
+    }
+
+    .profile-posts {
+        display: flex;
+        flex-flow: wrap row;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        box-sizing: border-box;
     }
 }

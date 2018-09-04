@@ -53,6 +53,7 @@ export const deletePostFromDb = (postId, imgURL) => {
 
             if(imgURL)
                 await storage.ref().child(`images/${postId}.jpg`).delete()
+
             dispatch(update_progress_bar(100))
             
             return dispatch(delete_post(postId))
@@ -69,6 +70,10 @@ export const loadPostsFromDb = () => {
             const firebasePostsBlob = await db.ref(`posts/`).once('value')
             const currentlyStoredPosts = firebasePostsBlob.val()
             
+            /*
+            * Query to get the 4 latests posts from db
+            const firebasePostsPage = await db.ref(`posts/`).orderByChild("date").limitToLast(4).once('value')
+            */
             let posts = []
 
             if (!currentlyStoredPosts)
@@ -97,7 +102,7 @@ export const loadPostsFromDb = () => {
     }
 }
 
-export const savePost = (date, time, message, email, postId, imgDownloadURL = null) => {
+export const savePost = (date, time, message, email, postId, imgDownloadURL = null, type) => {
     return {
         type: SUBMIT_POST,
         post: {
@@ -106,7 +111,8 @@ export const savePost = (date, time, message, email, postId, imgDownloadURL = nu
             date: date,
             time: time,
             postId: postId,
-            imgDownloadURL: imgDownloadURL
+            imgDownloadURL: imgDownloadURL, 
+            type: type
         }
     }
 }
@@ -114,41 +120,47 @@ export const savePost = (date, time, message, email, postId, imgDownloadURL = nu
 export const submit_post = (message, email, img) => {
     return async dispatch => {
 
-        const uploadImgToFirestoreAndRetreiveDownloadURL = async (img, postId, date, postTime) => {
+        const uploadMediaToFirestoreAndRetreiveDownloadURL = async (type, img, postId, date, postTime) => {
             if (!img)
                 return null
-
-            const uploadTask = await storage.ref().child(`images/${postId}.jpg`).put(img)
+            const uploadTask = await storage.ref().child(`images/${postId}.jpg`).put(img) 
 
             return uploadTask.ref.getDownloadURL()
         }
 
-        const uploadPostToFirestore = (postId, email, message, date, postTime, imgDownloadURL) => {
+        const uploadPostToFirestore = (postId, email, message, date, postTime, imgDownloadURL, mediaType) => {
             return db.ref(`/posts/${postId}`).set({
                 author: email,
                 message: message,
                 date: date,
                 time: postTime,
                 postId: postId,
-                imgDownloadURL: imgDownloadURL
+                imgDownloadURL: imgDownloadURL,
+                type: mediaType
             })
+        }
+
+        const getMediaType = img => {
+            const type = img.type.split("/");
+            return type[type.length - 1]
         }
 
         try {
             dispatch(update_progress_bar(0))
-
+            console.log(img.type);
             const
                 newPostKey = db.ref().child('posts').push().key,
                 today = new Date(),
                 date = today.toDateString(),
                 postTime = today.toLocaleTimeString('en-US'),
-                imgDownloadURL = await uploadImgToFirestoreAndRetreiveDownloadURL(img, newPostKey, date, postTime)
-            
-            uploadPostToFirestore(newPostKey, email, message, date, postTime, imgDownloadURL)
+                type = getMediaType(img),
+                imgDownloadURL = await uploadMediaToFirestoreAndRetreiveDownloadURL(type, img, newPostKey, date, postTime)
+                
+            uploadPostToFirestore(newPostKey, email, message, date, postTime, imgDownloadURL, type)
             
             dispatch(update_progress_bar(100))
 
-            return dispatch(savePost(date, postTime, message, email, newPostKey, imgDownloadURL))
+            return dispatch(savePost(date, postTime, message, email, newPostKey, imgDownloadURL, type))
         } catch (err) {
             return console.log(err)
         }

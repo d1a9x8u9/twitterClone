@@ -23,7 +23,7 @@ class Profile extends Component {
             <div className="Profile">
                 <div className="h2 text-center profile-title">My Posts</div>
                 <hr />
-                <div className="px-1">
+                <div className="profile-posts">
                     {postsView}
                 </div>
             </div>

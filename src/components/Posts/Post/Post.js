@@ -28,6 +28,16 @@ class Post extends Component {
             deleteView = (
                 <i className="fas fa-times" onClick={this.toggleDeleteConfirmation}></i>
             )
+        
+        let mediaView = null
+        if (this.props.post.type === "jpeg" || !this.props.post.type) 
+            mediaView = (
+                <CardImg top width="100%" src={this.props.post.imgDownloadURL} alt='img.jpg' />
+            )
+        else if (this.props.post.type === "quicktime") 
+            mediaView = (
+                <video controls="controls" src={this.props.post.imgDownloadURL} />
+            )
 
         return (
             <Card className="my-2 Card">
@@ -35,7 +45,8 @@ class Post extends Component {
                     <CardText className="CardText">{this.props.post.message}</CardText>
                     {deleteView}
                 </div>
-                {this.props.post.imgDownloadURL ? <CardImg top width="100%" src={this.props.post.imgDownloadURL} alt='img.jpg' /> : null}
+                {mediaView}
+
                 {/* <div className="px-2 text-right">
                     <i className="far fa-thumbs-up"></i>
                     <i className="far fa-heart pl-2"></i>
